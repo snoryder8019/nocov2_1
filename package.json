@@ -34,6 +34,7 @@
     "passport-google-oidc": "^0.1.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.2",
+    "sharp": "^0.33.2",
     "twilio": "^4.9.0"
   },
   "description": "This is a validated registration form using vanilla JS, node, express, and ejs.",

@@ -19,6 +19,7 @@ const config = require('./config/config_noco')
 //views to individual pages
 const indexRouter = require('./index');
 const routesRouter = require('./routes/index');
+const plugins =require('./plugins')
 //setting template engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs',{async:true});
@@ -63,7 +64,7 @@ app.use(passport.session())
 //INDEX ROUTER
 app.use('/', indexRouter);
 app.use(routesRouter)
-
+app.use(plugins.resizeAndCropImage)
 
 
 app.use(function(req, res, next) {
