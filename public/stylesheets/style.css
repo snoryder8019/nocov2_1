@@ -248,7 +248,7 @@ body {
 }
 
 .introType {
-  font-family: "kScript";
+  font-family: "combo";
   font-weight: 100;
   animation: none;
   width: 100%;
@@ -284,6 +284,11 @@ body {
 @media (min-width: 750px) {
   .introType::after, .introType::before {
     top: 17%;
+  }
+}
+@media (max-width: 768px) {
+  .introType {
+    font-size: 2rem;
   }
 }
 
@@ -417,7 +422,7 @@ h1 .pricing {
 }
 
 h2 {
-  font-family: "righteous";
+  font-family: "conbo";
 }
 h2 .imgBox {
   width: 100%;
@@ -575,7 +580,7 @@ p .pricing {
 }
 
 a {
-  font-family: "righteous";
+  font-family: "conbo";
   color: rgba(205, 202, 241, 0.857);
 }
 a .imgBox {
@@ -655,7 +660,7 @@ a .pricing {
 }
 
 li {
-  font-family: "righteous";
+  font-family: "conbo";
 }
 li .imgBox {
   width: 100%;
@@ -741,7 +746,7 @@ li .pricing {
 }
 
 .footer {
-  font-family: "righteous";
+  font-family: "conbo";
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -841,7 +846,7 @@ img.okImg {
 }
 
 form {
-  font-family: "righteous";
+  font-family: "conbo";
   margin: 0;
   padding: 0;
 }
@@ -1182,7 +1187,7 @@ img.mainImg {
 }
 
 select {
-  font-family: "righteous";
+  font-family: "conbo";
   width: 80%;
   margin: 3% 10%;
   height: 45px;
@@ -1453,12 +1458,18 @@ th {
 @media (max-width: 768px) {
   .invImg {
     height: 250px;
+    width: 70%;
+  }
+}
+@media (min-width: 768px) {
+  .invImg {
+    width: 56%;
   }
 }
 
 .invName {
   width: 100%;
-  font-family: "combo";
+  font-family: "righteous";
   font-size: 2rem;
   text-shadow: 1px 1px 1px white;
   font-weight: 800;
@@ -1468,7 +1479,7 @@ th {
 
 .invPrice {
   width: 100%;
-  font-family: "righteous";
+  font-family: "conbo";
   font-size: 2.5rem;
   font-weight: 500;
   text-shadow: 1px 1px 1px white;
@@ -1557,6 +1568,11 @@ th {
   width: 100vw;
   height: 100vh;
   background-color: black;
+}
+@media (min-width: 768px) {
+  #menuPage {
+    width: 30vw;
+  }
 }
 
 .menuContent {

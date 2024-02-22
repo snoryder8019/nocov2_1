@@ -10,8 +10,8 @@
         <div onclick="goToIntroPage('<%=data[2][i]._id%>')" style="margin-bottom:12%" class="eventBody">  
         <h1 class="h1Span"><%=data[2][i].introHeader%></h1>
         <div class="introImgDiv_L">     
-            <div class="innerDetails"><%=data[2][i].introDetails%></div>
-            <div><img class="introImg" src="/<%=data[2][i].imgName%>"></div>
+
+            <div><img class="introImg" src="/<%=data[2][i].imgName%>" alt="<%=data[2][i].introDetails%>"></div>
             </div>
         </div>
         <%}%>

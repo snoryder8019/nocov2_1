@@ -23,8 +23,8 @@ $grey:rgba(97,97,97,.95);
   font-family:"righteous" ;
   src: url('../fonts/Combo/Combo-Regular.ttf');
 }
-$fontMain:"combo";
-$fontSecondary:"righteous";
+$fontMain:"righteous";
+$fontSecondary:"conbo";
 //COLOR EXTENDORS
 $transparent:rgba(0,0,0,0);
 $accent:#dcf6ff;
@@ -104,7 +104,7 @@ min-height: 50%;
   }
   $typeSize:5rem;
   .introType{
-    font-family: 'kScript';
+    font-family: 'combo';
     font-weight: 100;
     animation: none;
     width: 100%;
@@ -140,6 +140,9 @@ min-height: 50%;
     }
   
   
+    }
+    @media (max-width:768px) {
+      font-size: 2rem;
     }
   }
   .introFoot{
@@ -194,7 +197,7 @@ h1{
   animation: .9s cubic-bezier(0.075, 0.82, 0.165, 1) 1 slidein;
   font-size: 3rem;
   margin-bottom: 1px;
-  font-family: $fontMain;
+  font-family: "combo";
   color:$accent;
   @include mqs();
   
@@ -853,6 +856,12 @@ background-size: cover;
 background-repeat: no-repeat;
 @media (max-width:768px){
   height: 250px;
+  width: 70%;
+    
+}
+@media (min-width:768px){
+ // height: 250px;
+  width: 56%;
     
 }
 
@@ -957,6 +966,10 @@ padding: 0;
 width: 100vw;
 height: 100vh;
 background-color: black;
+@media (min-width:768px) {
+  width: 30vw;
+  
+}
 }
 .menuContent{
   
