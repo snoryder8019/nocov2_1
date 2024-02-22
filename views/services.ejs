@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body onload="minView(1)">   
+  <%- include('config/bkgdImg.ejs')%>            
+  <%- include('config/loadScreen.ejs')%>
+  <%- include('config/header.ejs')%>
+  <div id="backgroundFX">      
+      <h1 class="h1Span"> Noco Metalworkz SERVICES</h1>
+      <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageGrid)">table</button>
+      <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageCard)">card</button>
+      <button hidden onclick="switchView(pageNav)">nav</button>
+      <a href="/accounts"><button>accounts</button></a>
+      <a href="/admin"><button>admin</button></a>
+      <button onclick="switchView(pageAdd)">add</button>
+      <a href="/invoice"><button>invoice</button></a>
+    <div id="pageCard" class="landingPage">
+    
+    <%for(let i =0;i<data[0].length;i++){%>    
+     <a href="/editor/?_id=<%=data[0][i]._id%>&ext=<%=Object.values(ext)%>"> <div class="eventBody">
+        <span class="alert"><h2> <%= data[0][i].serviceName%></h2></span><br>
+       <p>       
+         <h3>  <%= data[0][i].serviceCategory%><br></h3>
+         <%= data[0][i].serviceDetail%><br>
+        </p>
+        <h1 class="span"><%= data[0][i].cost%></h1><%= data[0][i].terms%><br>
+              
+      </div></a>
+      <%}%>
+      
+    </div>
+    <div id="pageNav">
+    
+      <%- include('./config/midbarAdmin.ejs')%>
+    </div>
+    
+    <div class="eventBody" id="pageAdd">
+      <h1>Add Service</h1>
+      <form action="/postToServices" method="post">
+        <label for="collection-ext-name">collection Ext Name:</label>
+        <input type="text" id="collectionExtName" name="collectionExtName" value="_services" hidden required>
+        <br><br>
+
+        <label for="service-name">Service Name:</label>
+        <input type="text" id="serviceName" name="serviceName" required>
+        <span class="alert">*Required*</span>
+        <br><br>
+        
+        <label for="cost">Cost:</label>
+        <input type="number" id="cost" name="cost" required>
+        <br><br>
+        
+        <label for="terms">Terms:</label>
+        <input type="text" id="terms" name="terms" required>
+        <br><br>      
+        <label for="service-category">Service Category:</label>
+        <input type="text" id="serviceCategory" name="serviceCategory" required>
+        <br><br>      
+      
+
+        <label for="service-detail">Service Detail:</label>
+        <textarea id="serviceDetail" name="serviceDetail" rows="4" cols="50" required></textarea>
+        <br><br>
+        
+        <input type="submit" value="Add Service">
+      </form>
+    </div>
+ 
+
+
+    <div id="pageGrid" class="eventBody">
+      <table >
+        <thead>
+          <tr>
+            <th>Service Name</th>
+            <th>Cost</th>
+            <th>Terms</th>
+            <th>Service Category</th>
+            <th style="text-align: center;">Service Detail</th>
+           
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0;i<data[0].length;i++){%>
+          <tr>
+            <td><%=data[0][i].serviceName%></td>
+            <td><%=data[0][i].cost%></td>
+            <td><%=data[0][i].terms%></td>
+            <td><%=data[0][i].serviceCategory%></td>
+            <td><%=data[0][i].serviceDetail%></td>
+         
+            <td><a href="/editor/?_id=<%=data[0][i]._id%>&ext=_services"><span class="alert"> Edit</span></a></td>
+           
+          </tr>
+      <%}%>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+        </div>
+
+   
+    
+      
+      
+      
+      
+    
+    
+  </div>
+  
+  
+  
+</div>
+<script>
+const pageCard= document.getElementById('pageCard')
+const pageGrid= document.getElementById('pageGrid')
+const pageNav= document.getElementById('pageNav')
+const pageAdd= document.getElementById('pageAdd')
+function minView(zz){
+  const viewArray = [pageCard,pageAdd,pageGrid,pageNav]
+  console.log(viewArray)
+  for(let i=zz;i<viewArray.length;i++){
+  viewArray[i].style.display = "none"
+}
+}
+function switchView(view){
+minView(0)
+if(view==pageCard){
+  view.style.display="grid"
+}else{
+view.style.display="block"
+}}
+
+</script>
+
+</body> </html>

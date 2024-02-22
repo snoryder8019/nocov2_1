@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <%- include('config/head.ejs')%>
+
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+    <body>
+           
+<canvas id="bkgdCanvas"></canvas>  
+<div id="backgroundFX">
+  
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/loadScreen.ejs')%>
+<div class="eventBody">
+<h1 class="h1Span"><%=title%></h1>
+</div>
+<%- include('./adminViews/adminNavButtons')%>
+<div class="mainStyle">
+  <div class="landingPage">
+    
+    
+    
+    
+    <div id="introContent" class="adminSec"> <%- include('./adminViews/introContent')%></div>
+    
+    <!---->
+    
+    <!---->
+    
+
+    
+    
+  </div>
+  <div id="gallery" class="adminSec"> <%- include('./adminViews/gallery',{introContent:introContent})%></div>
+
+
+      
+  <!---->
+  
+  <!--div class="evnetBody"><h1 class="h1Span"><a href="/options">Options</a></h1></div-->
+  <!--div class="evnetBody"><h1 class="h1Span"><a href="/services">Services</a></h1></div-->
+  <!--div class="evnetBody"><h1 class="h1Span"><a href="/accounts">Accounts</a></h1></div-->
+  
+  <%- include('./config/baseScripts.ejs')%>
+  
+  
+  <%- include('config/footer.ejs')%> 
+
+</body> </html>

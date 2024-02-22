@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <%- include('config/head.ejs')%>
+<body onload="bodyLoader()">      
+   
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/header.ejs')%>
+            <%- include('config/loadScreen.ejs')%>            
+    <div class="mainStyle">       
+        <div class="eventBody">
+            <h1 class="h1Span">Services</h1>                
+            <form action="/marketOp">
+                <div class="marketFilter">
+                    <select onchange="loading('filtering inventory'),submit()" name="catID"   id="">
+                    <option >Filter by Category</option>
+                    <% for(var i=0;i<data[2].length;i++){%>
+                     <option value="<%= data[2][i].catName%>"><%= data[2][i].catName%></option>
+                     <%}%>
+                   </select>
+                </div>
+             </form>
+        </div>
+        <div class="eventBody">
+            <div class="eventBody">
+                <div class="invGrid">
+                    <% for(var i=0;i<data[1].length;i++){%>
+                        <div class="gridContain">
+                            <div>
+                                <h2><%=data[1][i].serviceName%></h2>
+                                <h3>$<%=data[1][i].cost%>.00</h3>
+                                <h4><%=data[1][i].terms%></h4>
+                            </div>
+                            <div class="imgCont">
+                                   <a onclick="loading('getting product details')" href="/productID/<%= data[1][i]._id%>"> 
+                                 <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
+                                </a>
+                               </div>
+                        </div>                
+                         <%}%>
+                         <div class="indexSpacerBottom"></div>
+                         <div class="indexSpacerBottom"></div>
+                        </div>        
+                    </div>  
+                </div>  
+            </div>       
+            <div class="indexSpacerBottom"></div>
+    <%- include('config/footer.ejs')%>     
+    <%- include('./config/baseScripts.ejs')%>
+</body> 
+</html>
