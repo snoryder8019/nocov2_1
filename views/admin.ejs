@@ -9,10 +9,8 @@
 <!--end-->
 </head>
     <body>
-           
-<canvas id="bkgdCanvas"></canvas>  
+     <canvas id="bkgdCanvas"></canvas>  
 <div id="backgroundFX">
-  
     <%- include('config/bkgdImg.ejs')%>
     <%- include('config/loadScreen.ejs')%>
 <div class="eventBody">
@@ -21,33 +19,14 @@
 <%- include('./adminViews/adminNavButtons')%>
 <div class="mainStyle">
   <div class="landingPage">
-    
-    
-    
-    
-    <div id="introContent" class="adminSec"> <%- include('./adminViews/introContent')%></div>
-    
-    <!---->
-    
-    <!---->
-    
-
-    
-    
-  </div>
+  <div id="introContent" class="adminSec"> <%- include('./adminViews/introContent')%></div>
+</div>
+<div id="introContentLive" class="adminSec"> <%- include('./adminViews/introContentLive',{introContent:introContent})%></div>
   <div id="gallery" class="adminSec"> <%- include('./adminViews/gallery',{introContent:introContent})%></div>
-
-
-      
-  <!---->
-  
   <!--div class="evnetBody"><h1 class="h1Span"><a href="/options">Options</a></h1></div-->
   <!--div class="evnetBody"><h1 class="h1Span"><a href="/services">Services</a></h1></div-->
   <!--div class="evnetBody"><h1 class="h1Span"><a href="/accounts">Accounts</a></h1></div-->
-  
   <%- include('./config/baseScripts.ejs')%>
-  
-  
   <%- include('config/footer.ejs')%> 
-
+  <script src="/javascripts/controllers/collapseController.js"></script>
 </body> </html>

@@ -9,15 +9,17 @@ const multer = require('multer');
 const upload =multer({dest:"uploads/"});
 //////////////////middleware
 function isAddy(req,res,next){
+if(config.env=="dev"){next()}
   if(!req.user){res.redirect('login')}
 if(req.user.isAdmin==true){
   next()}
     else{res.sendStatus(401)}
+
   }
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin', isAddy,(req,res) =>{
+router.get('/admin',isAddy,(req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {

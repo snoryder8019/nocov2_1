@@ -15,6 +15,63 @@ function isAddy(req,res,next){
     next()}
       else{res.sendStatus(401)}
     }
+
+
+    router.post('/updateIntroContent', async (req, res) => {
+        try {
+            await client.connect();
+            
+            // Retrieve data from the request body
+            const introContentId = req.body.introContentId;
+            const introHeader = req.body.introHeader;
+            // Update the intro content details
+            const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').updateOne(
+                { _id: new ObjectId(introContentId) },
+                {
+                    $set: {
+                        introHeader: introHeader
+                    }
+                }
+            );
+    
+            // Close the MongoDB connection
+            await client.close();
+    
+            console.log('Intro content updated successfully', result);
+            res.redirect('admin');
+        } catch (error) {
+            console.error('Error updating intro content:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    
+    router.post('/deleteIntroContent', async (req, res) => {
+        try {
+            await client.connect();
+            const introContentId = req.body.introContentId;
+            const icId = new ObjectId(introContentId);
+            console.log(icId);
+            // Delete the intro content
+            const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').deleteOne(
+                { _id: icId }
+            );
+    
+            // Close the MongoDB connection
+            await client.close();
+    
+            console.log('Intro content deleted successfully', result);
+            res.sendStatus(200);
+        } catch (error) {
+            console.error('Error deleting intro content:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    
+
+
+
+
+
     router.post('/uploadIntro',upload.single('photo'), function(req,res){
         /*isolate file extention*/
         const imageData= req.file;
@@ -40,7 +97,8 @@ function isAddy(req,res,next){
               introHeader:req.body.introHeader,
               postDate:Date.now(),
               introDetails:req.body.introDetails,
-              order:0,
+              order:99,
+              visible:true,
               imgName:bImgName,
               gallery:[
                   {

@@ -927,19 +927,14 @@ input:focus {
   animation: 0.6s ease-in 1 slidein;
   scroll-behavior: smooth;
 }
-.mainStyle:first-child {
-  margin-top: 12%;
-}
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 768px) {
   .mainStyle {
     width: 100%;
-    margin-top: 12%;
   }
 }
 @media screen and (min-width: 900px) {
   .mainStyle {
     width: 100%;
-    margin-top: 8%;
   }
 }
 
@@ -1585,6 +1580,10 @@ th {
   .introDeetsHeader {
     display: block;
   }
+}
+
+#gallery, #introContent, #introContentLive {
+  display: none;
 }
 
 .introDeetsGallery {
