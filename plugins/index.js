@@ -1,10 +1,10 @@
 const express =require('express');
 const router = express.Router();
 
+router.get('/', (req,res)=>{
+    
+})
 
 
-const {resizeAndCropImage}  = require('./sharp/sharp')
 
-
-
-module.exports={resizeAndCropImage}
+module.exports=router

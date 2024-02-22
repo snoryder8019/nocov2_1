@@ -64,7 +64,7 @@ app.use(passport.session())
 //INDEX ROUTER
 app.use('/', indexRouter);
 app.use(routesRouter)
-app.use(plugins.resizeAndCropImage)
+app.use(plugins)
 
 
 app.use(function(req, res, next) {
