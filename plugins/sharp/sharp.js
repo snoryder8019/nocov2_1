@@ -3,19 +3,19 @@ const path = require('path');
 
 
 const resizeAndCropImage = async (originalFilePath, outputDirectory, filename) => {
-  // try {
-  //   const outputPath = path.join(outputDirectory, filename);
+  try {
+    const outputPath = path.join(outputDirectory, filename);
     
-  //   await sharp(originalFilePath)
-  //     .resize({ width: 500, height: 500, fit: 'cover' }) // Resize and crop to 500x500
-  //     .toFormat('jpeg', { quality: 80 }) // Convert to jpeg and reduce file size
-  //     .toFile(outputPath);
+    await sharp(originalFilePath)
+      .resize({ width: 500, height: 500, fit: 'cover' }) // Resize and crop to 500x500
+      .toFormat('jpeg', { quality: 80 }) // Convert to jpeg and reduce file size
+      .toFile(outputPath);
 
-  //   return outputPath;
-  // } catch (error) {
-  //   console.error('Error resizing and cropping image:', error);
-  //   throw error; // Rethrow the error for handling in the calling function
-  // }
+    return outputPath;
+  } catch (error) {
+    console.error('Error resizing and cropping image:', error);
+    throw error; // Rethrow the error for handling in the calling function
+  }
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 <div class="mainStyle">
   <div class="EventBody">
-    <h1>Gallery Images</h1>
+    <h1>Intro Content Categories</h1>
     <table style="padding:2%;background-color: rgb(22, 36, 36);">
       <thead>
         <tr>
@@ -26,7 +26,10 @@
                   <option value="false" <%= introContent[i].visible === false ? 'selected' : '' %>>False</option>
                 </select>
               </td>
-              <td><img style="width: 50px;" src="<%= introContent[i].imgName %>" alt=""></td>
+              <td><img id="rotate-left" src="/path/to/left-arrow.png" alt="↶" onclick="rotateImage(-90)">
+                <img style="width: 50px;" src="<%= introContent[i].imgName %>" alt="">
+                <td><img id="rotate-right" src="/path/to/right-arrow.png" alt="↷" onclick="rotateImage(90)">
+              </td>
               <td><button type="submit">Save</button></td>
             </form>
             <td><button id="delete_<%= introContent[i]._id %>" type="button">Delete</button></td>

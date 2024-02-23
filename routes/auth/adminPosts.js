@@ -3,10 +3,14 @@ const router = express.Router();
 const fs = require('fs');
 const client = require('../../config/mongo');
 const multer = require('multer');
-const upload =multer({dest:"uploads/"});
+const upload =multer({dest:"public/images/uploads"});
+const sharp = require('sharp');
+const upload2 =require('../../plugins/multer/setup');
+const uploadIntro = require('../../plugins/multer/setup')
 const path = require('path');
 const  ObjectId  = require('mongodb').ObjectId;
-const config = require('../../config/config')
+const config = require('../../config/config');
+const { resizeAndCropImage } = require('../../plugins/sharp/sharp');
 
 
 function isAddy(req,res,next){
@@ -70,61 +74,62 @@ function isAddy(req,res,next){
 
 
 
+// const uploadIntro = async (req,res)=>{
+//     const {introHeader,introDetails} =req.body;
+//     console.log(`intro: ${introHeader} introDeets: ${introDetails}`)
 
+// }
 
-    router.post('/uploadIntro',upload.single('photo'), function(req,res){
-        /*isolate file extention*/
-        const imageData= req.file;
-        const ogStr=0;
-        const str = imageData.originalname;
-        const str2 = imageData.filename;
-        const strSplit= str.split('.');
-        const ext = strSplit[1];
-        const oldFilepath = "../"+config.IMAGE_FP+"/uploads/";
-        const newFilepath = "../"+config.IMAGE_FP+"/public/images/intro/"
-        const newName = 'intro_Image_'+ Date.now()+"."+ext;
-      /*^^end^^*/
-        const bImgName = "images/intro/"+newName;
-        fs.rename(oldFilepath+str2,newFilepath+newName,(error)=>{
-      if(error){
-        console.log(error);
-      }
-       })
-        async function saveBlog(bImgName,data){
-          try {
-            await client.connect();
-            await createBlog(client,{
-              introHeader:req.body.introHeader,
-              postDate:Date.now(),
-              introDetails:req.body.introDetails,
-              order:99,
-              visible:true,
-              imgName:bImgName,
-              gallery:[
-                  {
-                galleryImgName: 'save a gallery image',
-                galleryImgDesc: 'save a new gallery image before you delte this one',
-                imageUrl: 'save a gallery image for this category',
-                visible: false,
-                rank: 99
-                  }
-              ]
-            });
-           }
-           catch(error){
-             console.log(error);
-           }
-           finally{
-           await client.close();
-         }}
-       saveBlog(bImgName).catch(console.error);
-         async function createBlog(client,newBlog){
-          const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').insertOne(newBlog);
-          res.redirect('admin');
-          }
-         }
-      )
+router.post('/uploadIntro', upload.single('photo'), async (req, res) => {
+    try {
+      const { introHeader, introDetails } = req.body;
+      const file = req.file;
+      const uploadDirectory="./public/images/uploads/"
+      const outputDirectory="./public/images/intro/"
+     
+      const originalFilePath = path.join(uploadDirectory, file.filename);
+      const filename = file.filename;
+      const mimeType = file.mimetype
+      const ext = mimeType.split('/')[1]
+      const newFileName = "intro_image_"+Date.now();
+      // Perform image processing with Sharp
+      const sharpRes =await resizeAndCropImage(originalFilePath,outputDirectory,newFileName+"."+ext) 
+  
+      // Save the processed image with fs
+      fs.writeFileSync(`./public/images/intro/${file.filename}`, sharpRes);
+      
+      // console.log(`intro: ${introHeader} introDeets: ${introDetails} photo: ${file.filename}`);
+      const introSet={
+          introHeader:introHeader,
+          postDate: Date.now(),
+          introDetails:introDetails,
+          order:99,
+          imgName:"images/intro/"+newFileName+"."+ext,
+          gallery:[
+            {
+                galleryImgName:"updateGallery",
+                galleryImgDesc:"updateGallery",
+                imgUrl:"updateGallery",
+                visible:false,
+                rank:99
+            }
+          ]
+    }
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').insertOne(introSet)
+   
+console.log(result)
+   
+      
+      
+      res.send('Upload successful');
 
+    } catch (error) {
+      console.log(error);
+      res.send('Internal Server Error',error);
+    }
+  });
+  
+    
     router.post('/updateGalleryImage', async (req, res) => {
         try {
             await client.connect();
