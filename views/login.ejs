@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
-    
-    <%- include('config/head.ejs')%>
 
- <div class="mainStyle">
- 
-    <%- include('config/bkgdImg.ejs')%>
-    <%- include('config/header.ejs')%>
-    <body>
     <div class="eventBody">
     <div class="navBox" onclick="loginSwap(loginGroup,'sign in with one touch with:')">Sign In</div>
     <div class="navBox" onclick="loginSwap(regGroup,'register with one touch')">Register</div>
@@ -19,7 +10,7 @@
         </h2>
         <form action="/auth/checkCreds" method="post">
           <div>
-            <label for="email">email</label>
+            <label for="email">emails</label>
             <input id="email" name="email" type="text"  required />
           </div>
           <div>
@@ -74,12 +65,8 @@
 
 </div>
 </div>
-</div>
-     
-      <%- include('config/footer.ejs')%>
-      <!--script src="javascripts/backgroundFX1.js"></script-->
-      <%- include('./config/baseScripts.ejs')%>
+
+
    <script src="javascripts/login.js"></script> 
 
-    </body>
-    </html>
+   

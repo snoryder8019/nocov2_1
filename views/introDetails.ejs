@@ -25,36 +25,44 @@
             <%- include('config/bkgdImg.ejs')%>            
             <%- include('config/loadScreen.ejs')%>
             <%- include('config/header.ejs',{data:data})%>
-       
     <div class="eventBody">
-<div class="headNav">  
-    <h2 onclick="goToIntroPage('/')">←</h2>
-     <h2 class=""><%=data2.introHeader%></h2>
+
+    
+    
+
+
+
+<div class="introDeetsHeader"style="background-image: url('<%= data2.imgName%>');">
+<div class="introDeetsDiv" > <img src="/images/logo.png" alt=""> </div>
+<div class="introDeetsDiv">  <h4 class="introDescription" > <div class="headNav">  <h2 onclick="goToIntroPage('/')">←</h2>  <h2 class=""><%=data2.introHeader%></h2></div> <%=data2.introDetails%></h4></div>
 
 </div>
-     
-
-<div class="introDeetsHeader">
-<div class="introDeetsDiv">  <img class="invImg" src=" <%= data2.imgName%>" alt=""></div>
-<div class="introDeetsDiv">  <h4 class="introDescription" ><%=data2.introDetails%></h4></div>
-
+<div class="headNav_cell">
+    <h2 onclick="goToIntroPage('/')">←</h2>  <h2 class="headNav_cell"><%=data2.introHeader%></h2>
 </div>
-
-<h2><%=data2.introHeader%> Gallery</h2>
 <div class="introDetailsGallery">
- <%for(let i=0;i<data2.gallery.length;i++){%>
-   <img id="galleryIndex_<%=i%>_id_<%=data2._id%>" class="galleryImage" src=" <%=data2.gallery[i].imageUrl%>" alt="<%=data2.gallery[i].galleryImageTitle%>">
-    <%}%>
+  
+    <% 
+    // Filter and sort the visible gallery images by rank
+    const visibleGalleryImages = data2.gallery.filter(item => item.visible === true).sort((a, b) => a.rank - b.rank);
+    visibleGalleryImages.forEach((item, i) => { 
+    %>
+        <img id="galleryIndex_<%=i%>_id_<%=data2._id%>" class="galleryImage" src="<%= item.imageUrl %>" alt="<%= item.galleryImageTitle %>">
+    <% }); %>
 </div>
+
 
 
         </div>
         </div>
         <div style="display:none" id="galleryWindow"> <%- include ('partials/galleryWindow')%></div>
-        <div class="indexSpacerBottom"></div>
+    
+    
+
         <%- include('config/footer.ejs')%>
 
         <script>
+            
             // Function to fetch gallery item data from the server
 // Function to fetch gallery item data from the server
 function fetchGalleryItem(index, introContentId) {

@@ -26,10 +26,13 @@
                   <option value="false" <%= introContent[i].visible === false ? 'selected' : '' %>>False</option>
                 </select>
               </td>
-              <td><img id="rotate-left" src="/path/to/left-arrow.png" alt="↶" onclick="rotateImage(-90)">
-                <img style="width: 50px;" src="<%= introContent[i].imgName %>" alt="">
-                <td><img id="rotate-right" src="/path/to/right-arrow.png" alt="↷" onclick="rotateImage(90)">
-              </td>
+              <td>
+                <div class="rotateFlex">
+                <img class="rotate_icon" id="rotate-left" src="/images/icons/left_rotate.png" alt="↶" onclick="rotateImage(-90)">
+                <img class="tableImg" src="<%= introContent[i].imgName %>" alt="">
+                <td><img class="rotate_icon" id="rotate-right" src="/images/icons/right_rotate.png" alt="↷" onclick="rotateImage(90)">
+                  </td>
+                </td>
               <td><button type="submit">Save</button></td>
             </form>
             <td><button id="delete_<%= introContent[i]._id %>" type="button">Delete</button></td>
@@ -41,6 +44,21 @@
 </div>
 
 <script>
+
+  // Assuming introContent is an array of objects fetched from the database
+// Filter introContent to include only categories where gallery[i].visible is true
+const visibleIntroContent = introContent.filter(category => category.gallery.some(image => image.visible));
+
+// Sort the filtered array by gallery[i].rank
+visibleIntroContent.sort((a, b) => {
+    const rankA = a.gallery.find(image => image.visible).rank;
+    const rankB = b.gallery.find(image => image.visible).rank;
+    return rankA - rankB;
+});
+
+// Pass the filtered and sorted introContent to your template rendering engine
+// and use it to render the HTML
+
   // Add event listeners to delete buttons
   document.addEventListener('DOMContentLoaded', function() {
     const deleteButtons = document.querySelectorAll('[id^="delete_"]');

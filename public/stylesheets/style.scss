@@ -90,11 +90,13 @@ $textAltColor:white;
       transform-style: preserve-3d;
       transition-duration: .6s;
       &_head{
-        width: 26%;
-       margin-top: 20%;
-  @media (min-width:400px){margin-top:5%} 
-@media (min-width:900px) {
+        width: 70%;
+        margin-top: 20%;
+        @media (min-width:400px){margin-top:5%} 
+        @media (min-width:768px) {
+  width: 30%;
 //  width:40%;
+
  // margin-left:30%
 }}
   }
@@ -165,10 +167,11 @@ button{
   width: 92;
   margin-left: 3%;
 border-radius: 5%;
+padding:1%;
   margin: 1%;
-  min-height: 28%;
+ // min-height: 28%;
   font-family: 'combo';
-  font-size: 3rem;
+  font-size: 1.2rem;
   // min-width:92%;
   // min-height:35px;
   // margin-left: 4%; 
@@ -599,7 +602,7 @@ align-items: center;
   position: fixed;
   min-width: 100vw;
   padding:2%;
-bottom:3%;
+//bottom:3%;
   left: 12px;
   display: flex;
   background-image: url('');
@@ -607,22 +610,24 @@ bottom:3%;
  background-clip:unset;
 background-size: 55px;
 background-position-x: 85%;
+background-position-y: 75%;
 // background-color:$grey;
 z-index: 50;
 animation: logoMove 15s linear 0 infinite;
 @media (min-width:768px){
   
-  background-size: 100px;
+  background-size: 70px;
   }
   }
  
 select{
   font-family: $fontSecondary;
-  width: 80%;
+  width: 100%;
   margin:3% 10%;
   height: 45px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   text-align: center;
+  font-family: "combo";
 }
 .imgSubDiv{
   min-width: 40%;
@@ -671,14 +676,14 @@ max-height: 50%;
 overflow-y: scroll;
 input{
   border: 1px solid rgba(0,0,0,.9);
-  min-width: 96%;
-
-
+ // min-width: 96%;
+height:40px;
+width: max-content;
  margin: 1%;
  padding: 1%;
         color: $textColor;
      background-color: $blue;
- font-size: 1em;
+// font-size: 1em;
 }
 }
 td{
@@ -850,18 +855,13 @@ width: 100%;
 
 }
 .invImg{
-width: 100%;
+width: 99%;
+margin-bottom: 0;
 object-fit:cover;
 background-size: cover; 
 background-repeat: no-repeat;
-@media (max-width:768px){
-  height: 250px;
-  width: 70%;
-    
-}
 @media (min-width:768px){
- // height: 250px;
-  width: 56%;
+width:60%
     
 }
 
@@ -942,8 +942,8 @@ min-height: 8%;
 min-width: 49%;
 margin: 13%;
 padding:1%;
-background-color: $accent;
-border: $blue;
+background-color: black;
+border:1px solid rgb(167, 167, 167);
 transform-style: preserve-3d;
 transition-timing-function: ease-in-out;
 transition-duration: .8s;
@@ -986,55 +986,109 @@ background-color: black;
  // transform: rotateZ(-45deg) translateY(200%) translateX(15%);
 
 }
+.introDeetsHeader {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  height: auto;
+  align-content: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative; /* Ensure the h2 can be positioned relative to this container */
+}
 
-.introDeetsHeader{
-min-height: 250px;
-border: 3px solid $blue;
-display: flex;
-align-items: center;
-align-content: center;
-@media (max-width:768px){
-display: block;
-    
+.introDeetsHeader h2 {
+  font-family: 'combo';
+  color: rgb(255, 255, 255);
+  font-size: 5rem;
+  font-weight: 900;
+  text-shadow: 2px 2px 12px 12px rgb(0, 0, 0);
+  margin: 0; /* Remove default margin to prevent unwanted spacing */
+  position: relative; /* Position the h2 relative to its container */
+  z-index: 1; /* Ensure the h2 is above the background image */
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%); /* Define the desired shape for the clipping */
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .introDeetsHeader {
+    display: block;
+    min-height: 250px;
+  }
+}
+
+/* Pseudo-element to create the effect of the clipped background */
+.introDeetsHeader::before {
+  content: ""; /* Ensure the pseudo-element is rendered */
+  position: absolute; /* Position it absolutely within the container */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%); /* Use the same clip-path as the h2 */
+  z-index: 0; /* Ensure the background is behind the h2 */
 }
 
 
 
-}
 .introDeetsDiv{
-
+  width:50%;
+margin:0;
+padding:0;
 }
-#gallery, #introContent, #introContentLive{
+#gallery, #introContent, #introContentLive, #registry{
   display:none;
 }
 .introDeetsGallery{
-display: grid;
-grid-template-columns: 1fr 5fr;
-
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  
 }
 .introDetailsGallery{
+  font-family:"combo";
   width: 100%;
   height:auto;
   display: flex;
   overflow-x: auto;
+  background-color: rgb(161, 161, 161);
+  box-shadow: inset 2px 2px 7px black;
 }
 .introDescription{
-  padding:5%;
-  font-size: 2rem;
-  @media (max-width:768px){
-    padding:10%;
-    font-size: 1rem;
+  margin-top: 0;
+ // margin-left: 15%;
+  width: 100%;
+  padding:8% 0%;
+  font-size: 1rem;
+  background-color: black;
+  @media (min-width:768px){
+ padding:8% 5%;
+ width: 71%;
 
   }
+  @media (max-width:768px) {
+    margin-left: 114%;
+    width: 87%;
+  }
+
 }
 .galleryImage{
   border-radius: 5px;
-  width:100%;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  width:38%;
   margin:2%;
-  box-shadow:8px 8px 2px rgba(0, 0, 0, 0.277);
+  box-shadow:8px 8px 2px rgba(0, 0, 0, 0.295);
   transform-style: preserve-3d;
   transition-duration: 1.2s;
   transition-timing-function: ease-in-out;
+  flex-shrink: 0;
   @media (min-width:768px){
     width:15%;
 
@@ -1053,10 +1107,27 @@ grid-template-columns: 1fr 5fr;
 flex-shrink: none;
   }
 }
+.headNav_cell{
+  @media (max-width:768px){
+    font-size:2rem;
+    color:rgb(255, 255, 255);
+  font-family: "combo";
+  font-weight: 900;
+  background-color: rgb(54, 54, 54);
+  }
+  @media (min-width:768px){
+display: none;
+h2{
 
+    }
+  }
+}
 .headNav{
   display: grid;
   grid-template-columns: 1fr 10fr;
+@media (max-width:768px) {
+  display: none;
+}
 }
 .gallery-window {
   position: fixed;
@@ -1097,3 +1168,30 @@ flex-shrink: none;
   align-items: center;
   align-content: center;
 }
+.rotate_icon{
+  width:40%;
+  flex-shrink: none;
+}
+.rotateFlex{
+  display: flex;
+}
+.tableImg{
+  width: 30%;
+}
+.imgUpdateFormDiv{
+  position: fixed;
+  bottom:15%;
+  left:5%;
+  border:1px solid white;
+  border-radius: 15px;
+  background-color: black;
+  width:30%;
+  animation: ease-in-out 1.2s 0 slideIn;
+}
+#registry{
+  position: fixed;
+  width: 100vw;
+  height:100vh;
+  z-index: 1000;
+  top: 0;
+  left: 0;}

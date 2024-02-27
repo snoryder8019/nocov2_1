@@ -84,20 +84,19 @@ router.post('/uploadIntro', upload.single('photo'), async (req, res) => {
     try {
       const { introHeader, introDetails } = req.body;
       const file = req.file;
+    if(!file){res.send('no file')}
       const uploadDirectory="./public/images/uploads/"
       const outputDirectory="./public/images/intro/"
-     
       const originalFilePath = path.join(uploadDirectory, file.filename);
-      const filename = file.filename;
+     // const filename = file.filename;
       const mimeType = file.mimetype
       const ext = mimeType.split('/')[1]
       const newFileName = "intro_image_"+Date.now();
       // Perform image processing with Sharp
-      const sharpRes =await resizeAndCropImage(originalFilePath,outputDirectory,newFileName+"."+ext) 
+      const sharpRes =await resizeAndCropImage(originalFilePath,outputDirectory,newFileName+"."+ext,500,500) 
   
       // Save the processed image with fs
-      fs.writeFileSync(`./public/images/intro/${file.filename}`, sharpRes);
-      
+      fs.writeFileSync(`./public/images/intro/${file.filename}`, sharpRes);      
       // console.log(`intro: ${introHeader} introDeets: ${introDetails} photo: ${file.filename}`);
       const introSet={
           introHeader:introHeader,
@@ -109,19 +108,15 @@ router.post('/uploadIntro', upload.single('photo'), async (req, res) => {
             {
                 galleryImgName:"updateGallery",
                 galleryImgDesc:"updateGallery",
-                imgUrl:"updateGallery",
+                imagegUrl:"updateGallery",
                 visible:false,
                 rank:99
             }
           ]
     }
-    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').insertOne(introSet)
-   
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').insertOne(introSet)   
 console.log(result)
-   
-      
-      
-      res.send('Upload successful');
+     res.send('Upload successful');
 
     } catch (error) {
       console.log(error);
@@ -129,7 +124,59 @@ console.log(result)
     }
   });
   
-    
+  router.post('/galleryImgUpdate', upload.single('image'), async (req, res) => {
+    try {
+        const file = req.file;
+
+        const introId0 = req.body.introId;
+        const introId = new ObjectId(introId0)
+        const galleryIndex = req.body.galleryIndex;
+
+        if (!file || !introId || !galleryIndex) {
+            console.log('Missing required fields', `\n introId: ${introId},  index: ${galleryIndex}`);
+        }
+        
+        const uploadDirectory = "./public/images/uploads/";
+        const outputDirectory = `./public/images/intro/${introId0}/`;
+        const originalFilePath = path.join(uploadDirectory, file.filename);
+        const mimeType = file.mimetype;
+        const ext = mimeType.split('/')[1];
+        const newFileName = "gallery_" + Date.now();
+        
+        // Perform image processing with Sharp
+        const sharpRes = await resizeAndCropImage(originalFilePath, outputDirectory, newFileName + "." + ext,600,375);
+        
+        console.log('post sharp', `\n originalFP: ${originalFilePath},  outDir: ${outputDirectory}`);
+        // Save the processed image with fs
+        try {
+            // Save the processed image with fs
+            fs.writeFileSync(`./public/images/intro/${introId0}/${newFileName}.${ext}`, sharpRes);
+        } catch (error) {
+            console.error('Error writing file:', error);
+            throw new Error('Error writing file');
+        }
+                
+        // Update database in the gallery index
+        const imageUrl = "images/intro/"+introId0+"/" + newFileName + "." + ext;
+
+        // Update the database with the new image URL at the specified gallery index
+        const updateResult = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_intro_content').updateOne(
+            { _id: introId },
+            { $set: { ["gallery." + galleryIndex + ".imageUrl"]: imageUrl } }
+        );
+console.log(updateResult)
+        if (updateResult.modifiedCount === 1) {
+           res.redirect('admin')
+        } else {
+            res.send('Failed to update image in the database');
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
     router.post('/updateGalleryImage', async (req, res) => {
         try {
             await client.connect();
@@ -139,6 +186,7 @@ console.log(result)
             const galleryIndex = parseInt(req.body.galleryIndex);
             const galleryImgName = req.body.galleryImgName;
             const galleryImgDesc = req.body.galleryImgDesc;
+            const rank = req.body.rank;
             const visible = req.body.visible === 'true'; // Convert string to boolean
     console.log(`id ${introContentId} index: ${galleryIndex}`)
             // Update the gallery image details
@@ -151,6 +199,7 @@ console.log(result)
                     $set: {
                         [`gallery.${galleryIndex}.galleryImgName`]: galleryImgName,
                         [`gallery.${galleryIndex}.galleryImgDesc`]: galleryImgDesc,
+                        [`gallery.${galleryIndex}.rank`]: rank,
                         [`gallery.${galleryIndex}.visible`]: visible
                     }
                 }
@@ -204,22 +253,25 @@ console.log(result)
 router.post('/uploadGalleryImages', upload.single('photo'), async function(req, res) {
     const { galleryImgName, galleryImgDesc } = req.body;
     const imageData = req.file;
+    if(!imageData){return res.redirect('/admin')}
     const str = imageData.originalname;
     const ext = str.split('.')[1];
     const introContentId = req.body.introCat;
     const introId = new ObjectId(introContentId);
-    const oldFilepath = "../" + config.IMAGE_FP + "/uploads/";
+    const oldFilepath = "../" + config.IMAGE_FP + "/public/images/uploads/";
     const newDirectory = "../" + config.IMAGE_FP + "/public/images/intro/" + introContentId + "/";
     const newName = 'gallery_' + Date.now() + "." + ext;
     const newFilepath = path.join(newDirectory, newName);
     const bImgName = "images/intro/" + introContentId + "/" + newName;
+    const correctOldFP= path.join("/public/images/uploads/",imageData.filename)
 
+    const sharpRes = await resizeAndCropImage(correctOldFP, newDirectory, newName + "." + ext,600,375);
     // Check if the directory exists, create it if not
     if (!fs.existsSync(newDirectory)) {
         fs.mkdirSync(newDirectory, { recursive: true });
     }
 
-    fs.rename(oldFilepath + imageData.filename, newFilepath, (err) => {
+    fs.rename(oldFilepath + imageData.filename, sharpRes, (err) => {
         if (err) {
             console.log(err);
         }

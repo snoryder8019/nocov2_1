@@ -14,6 +14,7 @@ const accountsRouter = require('./auth/accounts');
 const registerRouter = require('./register');
 const adminRouter =require('./auth/admin');
 const adminPostsRouter = require('./auth/adminPosts')
+
 router.use('/',(req,res, next)=>{next()})
 
 

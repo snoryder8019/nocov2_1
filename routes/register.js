@@ -41,8 +41,6 @@ catch(error){console.log(error)}
 });
 
 router.post('/regUser', (req,res) => {
- 
-
   async function main(){
    try { 
    // await client.connect();

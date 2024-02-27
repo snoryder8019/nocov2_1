@@ -20,6 +20,10 @@
     <%- include('config/head.ejs')%>
 
 <body onload="bodyLoader()">
+    <div id="registry">
+        <%- include('forms/registryForm')%>
+        <%- include('forms/register')%>
+    </div>
     <canvas id="bkgdCanvas"></canvas>   
         <div id="mainBody" class="">            
             <%- include('config/bkgdImg.ejs')%>            
@@ -27,16 +31,19 @@
             <%- include('config/header.ejs',{data:data})%>
             
     <%- include('config/intro.ejs')%> 
-    
 
 
-   
         <div class="indexSpacerBottom"></div>
         <%- include('config/footer.ejs')%>
-        
+  
     </div>
     
     
     <%- include('./config/baseScripts.ejs')%>
+  
+        
+        
+         
+        
 </body>
  </html>

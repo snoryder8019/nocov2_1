@@ -7,9 +7,11 @@
                     <th>Intro Header</th>
                     <th>Image Name</th>
                     <th>Description</th>
+                    <th>Rank</th>
                     <th>Visible</th>
                     <th>Image</th>
-                    <th>Action</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,66 +19,95 @@
                     <% for(let x=0; x<introContent[i].gallery.length; x++) { %>
                         <tr>
                             <% if(x === 0) { %>
-                                <td rowspan="<%= introContent[i].gallery.length %>"><%= introContent[i].introHeader %></td>
+                                <td style="border: 1px solid white" rowspan="<%= introContent[i].gallery.length %>"><%= introContent[i].introHeader %></td>
                                 <% } %>
-                                <form id="galleryForm" action="/updateGalleryImage" method="POST">
-                                    <input type="hidden"name="introContentId" value="<%=introContent[i]._id%>">
-                                    <input type="hidden"name="galleryIndex" value="<%=x%>">
-                        <td><input type="text" name="galleryImgName" value="<%= introContent[i].gallery[x].galleryImgName %>"></td>
-                        <td><input type="text" name="galleryImgDesc" value="<%= introContent[i].gallery[x].galleryImgDesc %>"></td>
-                        <td>
-                            <select name="visible">
-                                <option value="true" <%= introContent[i].gallery[x].visible === true ? 'selected' : '' %>>True</option>
-                                <option value="false" <%= introContent[i].gallery[x].visible === false ? 'selected' : '' %>>False</option>
-                            </select>
-                        </td>
-                        <td><img style="width: 50px;" src="<%= introContent[i].gallery[x].imageUrl %>" alt=""></td>
-                        <td><button type="submit">Save</button></td>
-                    </form>
-                        <td><button  id="delete_<%= x %>_<%=introContent[i]._id%>" type="button">Delete</button></td>
-                    </tr>
+                                <form id="galleryForm_<%= i %>" action="/updateGalleryImage" method="POST">
+                                    <input type="hidden" name="introContentId" value="<%=introContent[i]._id%>">
+                                    <input type="hidden" name="galleryIndex" value="<%=x%>">
+                                    <td><input type="text" name="galleryImgName" value="<%= introContent[i].gallery[x].galleryImgName %>"></td>
+                                    <td><input type="text" name="galleryImgDesc" value="<%= introContent[i].gallery[x].galleryImgDesc %>"></td>
+                                   <td> <input type="text" name="rank" value="<%= introContent[i].gallery[x].rank %>"></td>
+                                    <td>
+                                    <select name="visible">
+                                        <option value="true" <%= introContent[i].gallery[x].visible === true ? 'selected' : '' %>>True</option>
+                                        <option value="false" <%= introContent[i].gallery[x].visible === false ? 'selected' : '' %>>False</option>
+                                    </select>
+                                </td>
+                                <td><img onclick="revealForm('<%=introContent[i]._id%>', '<%=x%>')" style="width: 50px;" src="<%= introContent[i].gallery[x].imageUrl %>" alt="click to upload"></td>
+                                <td><button type="submit">Save</button></td>
+                            </form>
+                            <td><button id="delete_<%= x %>_<%=introContent[i]._id%>" type="button">Delete</button></td>
+                            <td>
+                                <div class="imgUpdateFormDiv" hidden id="imgUpdateForm_<%=introContent[i]._id %>_<%=x%>" class="imgUpdate">
+                                    <h3>Update image for: <%=introContent[i].gallery[x].galleryImgName%></h3>
+                                    <form action="/galleryImgUpdate" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="image" accept="image/*">
+                                        <input type="text" name="introId" value="<%= introContent[i]._id %>">
+                                        <input type="text" name="galleryIndex" value="<%= x %>">
+                                        <input type="submit" value="Upload Image">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     <% } %>
-                    <% } %>
-                </tbody>
-            </table>
+                <% } %>
+            </tbody>
+        </table>
     </div>
 </div>
-
 <script>
     // Add event listeners to delete buttons
     document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('[id^="delete_"]');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const galleryIndex = this.id.split('_')[1];
-            const introContentId = this.id.split('_')[2]; // Retrieve introContentId from the button's dataset
-            console.log(introContentId)
-            const confirmation = confirm("Are you sure you want to delete this image?");
-            if (confirmation) {
-                // Make a request to deleteGalleryImage endpoint
-                fetch('/deleteGalleryImage', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        galleryIndex: galleryIndex, 
-                        introContentId: introContentId // Pass introContentId to the request body
+        const deleteButtons = document.querySelectorAll('[id^="delete_"]');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const galleryIndex = this.id.split('_')[1];
+                const introContentId = this.id.split('_')[2]; // Retrieve introContentId from the button's dataset
+                console.log(introContentId)
+                const confirmation = confirm("Are you sure you want to delete this image?");
+                if (confirmation) {
+                    // Make a request to deleteGalleryImage endpoint
+                    fetch('/deleteGalleryImage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            galleryIndex: galleryIndex, 
+                            introContentId: introContentId // Pass introContentId to the request body
+                        })
                     })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Reload the page after successful deletion
-                        window.location.reload();
-                    } else {
-                        console.error('Failed to delete image');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }
+                    .then(response => {
+                        if (response.ok) {
+                            // Reload the page after successful deletion
+                            window.location.reload();
+                        } else {
+                            console.error('Failed to delete image');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
         });
     });
-});
-
+    
+    function revealForm(introId, galleryIndex) {
+        console.log('Revealing form for introId:', introId, ' with galleryIndex:', galleryIndex);
+        // Hide all forms
+        const allForms = document.querySelectorAll('[id^="imgUpdateForm_"]');
+        allForms.forEach(function(form) {
+            form.hidden = true;
+        });
+    
+        // Reveal the form corresponding to the clicked image
+        const divId = "imgUpdateForm_" + introId + "_" + galleryIndex;
+        const div = document.getElementById(divId);
+        if (div) {
+            console.log('Found form with id:', divId);
+            div.hidden = false;
+        } else {
+            console.log('Form not found with id:', divId);
+        }
+    }
 </script>
