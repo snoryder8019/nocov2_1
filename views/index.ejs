@@ -21,25 +21,26 @@
 
 <body onload="bodyLoader()">
     <div id="registry">
-        <%- include('forms/registryForm')%>
         <%- include('forms/register')%>
+        <%- include('forms/registryForm')%>
+   
     </div>
     <canvas id="bkgdCanvas"></canvas>   
         <div id="mainBody" class="">            
-            <%- include('config/bkgdImg.ejs')%>            
-            <%- include('config/loadScreen.ejs')%>
-            <%- include('config/header.ejs',{data:data})%>
-            
-    <%- include('config/intro.ejs')%> 
+            <%- include('config/bkgdImg')%>            
+            <%- include('config/loadScreen')%>
+            <%- include('config/header',{data:data})%>            
+    <%- include('config/intro')%> 
 
 
         <div class="indexSpacerBottom"></div>
-        <%- include('config/footer.ejs')%>
+        <%- include('config/footer')%>
   
     </div>
     
-    
-    <%- include('./config/baseScripts.ejs')%>
+    <script src="/javascripts/controllers/frontendController.js"></script>
+
+    <%- include('./config/baseScripts')%>
   
         
         

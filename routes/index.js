@@ -13,6 +13,7 @@ const auth = require('./auth');
 const accountsRouter = require('./auth/accounts');
 const registerRouter = require('./register');
 const adminRouter =require('./auth/admin');
+const regRouter =require('./auth/regForm');
 const adminPostsRouter = require('./auth/adminPosts')
 
 router.use('/',(req,res, next)=>{next()})
@@ -28,6 +29,7 @@ router.use('/',accountsRouter);
 router.use('/',adminPostsRouter);
 router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
+router.use('/',regRouter);
 /////////////////////
 
 

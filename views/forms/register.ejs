@@ -1,10 +1,9 @@
-
-      <div class="landingPage"> 
-        <div></div>
+<%- include('../config/loadScreen')%>
+      <div class=""> 
         <div>
-        <h1 class="h1Span"></h1>       <div class="eventBody">
-      <p>*We keep info private and do not sell information about our customers</p>
-  <form action="/contactform" method="POST">
+          <div class="newContact">
+            <form action="/newContact" method="POST">
+    <h2>Contact Us:</h2>
     <br><h2>name</h2>
       <input id="regName" type="text" name="fname"  pattern=".{3,}" title="three or more charachters" >
       <br><h2>email address</h2>
@@ -14,18 +13,27 @@
         <option name ="vendor" value="being a vendor"><h2>Have a Question</h2></option>
         <option name ="member" value="member"><h2>Commission a Design</h2></option>       
         <option name ="feedback" value="quote"><h2>I need an Estimate</h2></option>
-        <option name ="feedback" value="feedback"><h2>I want to pitch an idea</h2></option>
+        <option name ="feedback" value="feedback"><h2>something else</h2></option>
 
       </select>
-      <p>by selecting you aggree to our terms of service and to receive confirmation email to authenticate ownership</p>
+      <div class="selectDiv">
+        <input id="regBox" type="checkbox" name="agree">
+      <p>by selecting you agree to our <a id="tosWindow"> terms of service</a> and <a id="privacyPolicy">privacy policy</a>. 
+        <br> To prevent spam you will receive a confirmation email to authenticate your email address</p>
       
-      <input id="regBox" type="checkbox" name="agree"><br>
+    </div>
       <h2 class="validateError" id="regValidateError">*please fill out all fields and "Opt In" to submit</h2>
-   <h2>Your Message: </h2>
+      <h2>Your Message: </h2>
+
       <textarea name="message" cols="30" rows="10"></textarea>
-      <button disabled onclick="loading('sending message... redirecting Home ')" id="regSubmit" type="submit"><h2>submit form</h2></button>
+      <button  onclick="loading('Please check your Email for confirmation link')" id="regSubmit" type="submit"><h2>submit form</h2></button>
 </form>
+<h5 id="xClose"><a>❌ close this window</a></h5>
 </div>
 </div>
 <div></div>
+
 </div>
+<script src="/javascripts/loadScreen.js"></script>
+<script src="/javascripts/login.js"></script>
+<script src="/javascripts/validate.js"></script>

@@ -20,6 +20,11 @@
     <%- include('config/head.ejs')%>
 
 <body onload="bodyLoader()">
+    <div id="registry">
+        <%- include('forms/register')%>
+        <%- include('forms/registryForm')%>
+   
+    </div>
     <canvas id="bkgdCanvas"></canvas>   
         <div id="mainBody" class="">            
             <%- include('config/bkgdImg.ejs')%>            
@@ -60,6 +65,7 @@
     
 
         <%- include('config/footer.ejs')%>
+        <script src="/javascripts/controllers/frontendController.js"></script>
 
         <script>
             
