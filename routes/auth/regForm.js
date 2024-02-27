@@ -30,7 +30,7 @@ router.post('/newContact', async (req, res) => {
         await transporter.sendMail({
             from: config.EMAIL,
             to: email,
-            subject: 'Email Verification',
+            subject: 'Email Verification Link to send your Message to Noco Metalworkz',
             html: `Click <a href="${verificationLink}">here</a> to verify your email.`
         });
        res.redirect('/')
@@ -59,8 +59,9 @@ router.get('/verify-email', async (req, res) => {
         await transporter.sendMail({
             from: config.EMAIL,
             to: config.EMAIL, // Change to the owner's email address
-            subject: 'New Contact Form Submission',
+            subject: 'Message Receipt Confirmed from Nocometalworkz.com',
             html: `
+            <h2>A website guest has confirmed their email for a New Contact Form!</h2>
                 <p>New contact form submission:</p>
                 <p>Name: ${email.name}</p>
                 <p>Email: ${email.email}</p>
