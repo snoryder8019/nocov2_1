@@ -144,7 +144,7 @@ console.log(result)
         const newFileName = "gallery_" + Date.now();
         
         // Perform image processing with Sharp
-        const sharpRes = await resizeAndCropImage(originalFilePath, outputDirectory, newFileName + "." + ext,600,375);
+        const sharpRes = await resizeAndCropImage(originalFilePath, outputDirectory, newFileName ,600,375);
         
         console.log('post sharp', `\n originalFP: ${originalFilePath},  outDir: ${outputDirectory}`);
         // Save the processed image with fs
@@ -248,44 +248,44 @@ console.log(updateResult)
             res.status(500).send('Internal Server Error');
         }
     });
+    router.post('/uploadGalleryImages', upload.single('photo'), async function(req, res) {
+        try {
+            const { galleryImgName, galleryImgDesc, introCat } = req.body;
+            const imageData = req.file;
+            
+            // Check if image data exists
+            if (!imageData) {
+                return res.redirect('/admin');
+            }
     
-
-router.post('/uploadGalleryImages', upload.single('photo'), async function(req, res) {
-    const { galleryImgName, galleryImgDesc } = req.body;
-    const imageData = req.file;
-    if(!imageData){return res.redirect('/admin')}
-    const str = imageData.originalname;
-    const ext = str.split('.')[1];
-    const introContentId = req.body.introCat;
-    const introId = new ObjectId(introContentId);
-    const oldFilepath = "../" + config.IMAGE_FP + "/public/images/uploads/";
-    const newDirectory = "../" + config.IMAGE_FP + "/public/images/intro/" + introContentId + "/";
-    const newName = 'gallery_' + Date.now() + "." + ext;
-    const newFilepath = path.join(newDirectory, newName);
-    const bImgName = "images/intro/" + introContentId + "/" + newName;
-    const correctOldFP= path.join("/public/images/uploads/",imageData.filename)
-
-    const sharpRes = await resizeAndCropImage(correctOldFP, newDirectory, newName + "." + ext,600,375);
-    // Check if the directory exists, create it if not
-    if (!fs.existsSync(newDirectory)) {
-        fs.mkdirSync(newDirectory, { recursive: true });
-    }
-
-    fs.rename(oldFilepath + imageData.filename, sharpRes, (err) => {
-        if (err) {
-            console.log(err);
+            const introId = new ObjectId(introCat);
+            const ext = path.extname(imageData.originalname);
+            const newName = 'gallery_' + Date.now() + ext;
+            const newDirectory = path.join(__dirname, "../", config.IMAGE_FP, "public", "images", "intro", introCat);
+            const newFilepath = path.join(newDirectory, newName);
+            const bImgName = path.join("images", "intro", introCat, newName);
+    
+            // Ensure directory exists
+            if (!fs.existsSync(newDirectory)) {
+                fs.mkdirSync(newDirectory, { recursive: true });
+            }
+    
+            // Resize and crop the image based on orientation
+            const imageBuffer = req.file.buffer;
+            const orientation = imageData.width > imageData.height ? "horizontal" : "vertical";
+            await resizeAndCropImage(imageBuffer, newDirectory, newName, orientation);
+    
+            // Save the image details to the database
+            await saveBlog(bImgName, galleryImgName, galleryImgDesc, introId);
+    
+            res.redirect('/admin');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
         }
     });
-
-    try {
-        await saveBlog(bImgName, galleryImgName, galleryImgDesc, introId);
-
-        res.redirect('admin');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
-    }
-});
+    
+    
 
 async function saveBlog(bImgName, galleryImgName, galleryImgDesc, introContentId) {
     try {

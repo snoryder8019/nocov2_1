@@ -5,14 +5,12 @@ const ctrl_introContent = document.getElementById('introContent_control');
 const div_introContent=document.getElementById('introContent');
 const ctrl_introContentLive = document.getElementById('introContentLive_control');
 const div_introContentLive=document.getElementById('introContentLive');
-const ctrl_registry = document.getElementById('registry_control');
-const div_registry=document.getElementById('registry');
 
 const buttonCtlGroups = [
     { button: ctrl_gallery, div: div_gallery },
     { button: ctrl_introContent, div: div_introContent },
     { button: ctrl_introContentLive, div: div_introContentLive },
-    { button: ctrl_registry, div: div_registry },
+   
    
 
   
