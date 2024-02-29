@@ -76,7 +76,7 @@ router.post('/uploadGalleryImages', upload.single('photo'), async function(req, 
         const introId = new ObjectId(introCat);
         const ext = path.extname(imageData.originalname);
         const newName = 'gallery_' + Date.now() + ext;
-        const newDirectory = path.join(config.IMAGE_FP,  "public", "images", "intro", introCat);
+        const newDirectory = path.join(  "public", "images", "intro", introCat);
        console.log(newDirectory)
        const newFilepath = path.join(newDirectory, newName);
        console.log(newFilepath)
