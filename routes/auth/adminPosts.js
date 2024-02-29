@@ -37,7 +37,7 @@ router.post('/uploadIntro', upload.single('photo'), async (req, res) => {
         console.log(imageBuffer)
         const ext = path.extname(file.originalname);
         const newName = "intro_image_" + Date.now() + ext;
-        const newDirectory = path.join("/public/images/intro/");
+        const newDirectory = path.join( "public", "images", "intro");
         console.log(newDirectory,newName)
         console.log()
      await resizeAndCropImage(imageBuffer, newDirectory,newName, "horizontal");
