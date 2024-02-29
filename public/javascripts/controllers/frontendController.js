@@ -1,12 +1,17 @@
 //collapseController.js
 const ctrl_registry = document.getElementById('registry_control');
 const ctrl_xClose = document.getElementById('xClose');
+
+
+
 const div_registry=document.getElementById('registry');
+
 
 const buttonCtlGroups = [
   
     { button: ctrl_registry, div: div_registry },
     { button: ctrl_xClose, div: div_registry },
+ 
    
 
   

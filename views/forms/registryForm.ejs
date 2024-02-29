@@ -1,6 +1,7 @@
 
-    <a class="navxBox" onclick="loginSwap(loginGroup,'sign in with one touch with:')">Sign In</a>
-   / <a class="navxBox" onclick="loginSwap(regGroup,'register with one touch')">Register</a>
+    <a class="navxBox" onclick="popLogin(signin_div)">Sign In</a>
+   /
+    <a class="navxBox" onclick="popLogin(register_div)">Register</a>
 
        
       <div id="localSignin" class="loginBody">
@@ -66,7 +67,16 @@
 </div>
 </div>
 
+<script>
 
+const signin_div=document.getElementById('localSignin')
+const register_div=document.getElementById('localRegister')
+function popLogin(div){
+signin_div.style.display="none";
+register_div.style.display="none";
+div.style.display="block"
+}
+</script>
    <script src="javascripts/login.js"></script> 
 
    

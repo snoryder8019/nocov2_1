@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <% for(let i=0; i<introContent.length; i++) { %>
-          <tr>
+          <tr id="tr_<%= introContent[i]%>">
             <td><%= introContent[i].introHeader %></td>
             <form id="galleryForm_<%= i %>" action="/updateIntroContent" method="POST">
               <input type="hidden" name="introContentId" value="<%= introContent[i]._id %>">
@@ -31,13 +31,11 @@
                 <img class="rotate_icon" id="rotate-left" src="/images/icons/left_rotate.png" alt="↶" onclick="rotateImage(-90)">
                 <img class="tableImg" src="<%= introContent[i].imgName %>" alt="">
                 <img class="rotate_icon" id="rotate-right" src="/images/icons/right_rotate.png" alt="↷" onclick="rotateImage(90)">
-                 
               </div>
             </td>
-                </td>
               <td><button type="submit">Save</button></td>
             </form>
-            <td><button id="delete_<%= introContent[i]._id %>" type="button">Delete</button></td>
+            <td><button data-id="<%=introContent[i]._id%>" id="<%= introContent[i]._id %>" type="button">Delete</button></td>
           </tr>
         <% } %>
       </tbody>
@@ -66,51 +64,41 @@ function rotateImage(degrees) {
     });
 }
 
-  // Assuming introContent is an array of objects fetched from the database
-// Filter introContent to include only categories where gallery[i].visible is true
-const visibleIntroContent = introContent.filter(category => category.gallery.some(image => image.visible));
-
-// Sort the filtered array by gallery[i].rank
-visibleIntroContent.sort((a, b) => {
-    const rankA = a.gallery.find(image => image.visible).rank;
-    const rankB = b.gallery.find(image => image.visible).rank;
-    return rankA - rankB;
-});
-
-// Pass the filtered and sorted introContent to your template rendering engine
-// and use it to render the HTML
-
-  // Add event listeners to delete buttons
-  document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('[id^="delete_"]');
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('[data-id]');
     deleteButtons.forEach(function(button) {
-      button.addEventListener('click', function(event) {
-        event.preventDefault();
-        const introContentId = this.id.split('_')[1]; // Retrieve introContentId from the button's dataset
-        console.log(introContentId)
-        const confirmation = confirm("Are you sure you want to delete this image?");
-        if (confirmation) {
-          // Make a request to deleteGalleryImage endpoint
-          fetch('/deleteIntroContent', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ 
-                  introContentId: introContentId // Pass introContentId to the request body
-              })
-          })
-          .then(response => {
-              if (response.ok) {
-                  // Reload the page after successful deletion
-                  window.location.reload();
-              } else {
-                  console.error('Failed to delete image');
-              }
-          })
-          .catch(error => console.error('Error:', error));
-        }
-      });
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const introContentId = this.getAttribute("data-id"); // Retrieve introContentId from the button's data-id attribute
+            console.log(introContentId);
+            const confirmation = confirm("Are you sure you want to delete this image?");
+            if (confirmation) {
+                // Make a request to deleteGalleryImage endpoint
+                fetch('/deleteIntroContent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        id: introContentId // Pass introContentId to the request body
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                      alert("all okay");
+                      button.style.backgroundColor="red";
+                      button.innerHTML='deleted';
+                      button.style.color='black';
+                      this.closest.tr.style.backgroundColor='grey'
+                        // Reload the page after successful deletion
+                       // window.location.reload();
+                    } else {
+                        console.error('Failed to delete image');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
     });
-  });
+});
 </script>
