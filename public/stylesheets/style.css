@@ -1725,9 +1725,15 @@ th {
   }
 }
 
+.headNav_cell h2 {
+  padding: 8%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .headNav_cell:last-child {
   width: 90%;
-  margin-left: 30%;
+  margin-left: 10%;
   padding: 0;
   font-size: 2.2rem;
 }
@@ -1747,16 +1753,16 @@ th {
   width: 78%;
   top: 18%;
   left: 8%;
-  background-color: rgba(255, 255, 255, 0.9019607843);
+  background: linear-gradient(to bottom, rgb(255, 255, 255), rgba(255, 255, 241, 0.926));
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 4px 4px 12px rgba(0, 0, 0, 0.767);
   padding: 20px;
   z-index: 9999;
 }
 @media (min-width: 768px) {
   .gallery-window {
     width: 55%;
-    top: 5%;
+    top: 15%;
     left: 20%;
   }
 }
@@ -1782,8 +1788,9 @@ th {
 }
 
 .rotate_icon {
-  width: 40%;
-  flex-shrink: none;
+  width: 12%;
+  flex-shrink: 0;
+  height: 12%;
 }
 
 .rotateFlex {

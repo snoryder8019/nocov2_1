@@ -30,8 +30,10 @@
                 <div class="rotateFlex">
                 <img class="rotate_icon" id="rotate-left" src="/images/icons/left_rotate.png" alt="↶" onclick="rotateImage(-90)">
                 <img class="tableImg" src="<%= introContent[i].imgName %>" alt="">
-                <td><img class="rotate_icon" id="rotate-right" src="/images/icons/right_rotate.png" alt="↷" onclick="rotateImage(90)">
-                  </td>
+                <img class="rotate_icon" id="rotate-right" src="/images/icons/right_rotate.png" alt="↷" onclick="rotateImage(90)">
+                 
+              </div>
+            </td>
                 </td>
               <td><button type="submit">Save</button></td>
             </form>
@@ -44,6 +46,25 @@
 </div>
 
 <script>
+function rotateImage(degrees) {
+    // Make a request to the endpoint
+    fetch('/rotateIntroImage', {
+        method: 'POST', // or 'GET' depending on your endpoint
+        body: JSON.stringify({ degrees: degrees }), // send rotation degrees to server
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Assuming your endpoint returns status in the response
+        alert("Status: " + data.status);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error: " + error.message);
+    });
+}
 
   // Assuming introContent is an array of objects fetched from the database
 // Filter introContent to include only categories where gallery[i].visible is true
