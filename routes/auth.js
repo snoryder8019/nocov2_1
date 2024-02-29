@@ -5,8 +5,8 @@ const router = express.Router();
 // Create a route to handle the login request
 router.post('/checkCreds',
   passport.authenticate('local',{
-    successReturnToOrRedirect:'/market',
-    failureRedirect: '/login',
+    successReturnToOrRedirect:'/',
+    failureRedirect: '/',
     keepSessionInfo:true 
    }
  ),  
@@ -27,12 +27,12 @@ router.get('/facebook',
   passport.authenticate('facebook',
 {scope:['email', 'id']},
  // {successRedirect:'/'},
-  {failureRedirect:'/login'}));
+  {failureRedirect:'/'}));
 
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', 
   {successRedirect:'/'},
-  {failureRedirect: '/login' }));  
+  {failureRedirect: '/' }));  
 
   router.get('/logout', function(req, res, next) {
     const user=req.user

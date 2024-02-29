@@ -19,7 +19,7 @@ router.get('/', (req,res,next) =>{
 
 router.get('/login', function(req, res) {
   const user = req.user
-  res.render('login',{user:user});
+  res.redirect('/');
   }); 
 router.get('/',async function(req, res) {
   const user = req.user
@@ -56,13 +56,9 @@ router.post('/regUser', (req,res) => {
     });
   }catch (err){
     console.log(err)
-  }finally{
-    //await client.close();
   }
   }
-/////////////////
   main().catch(console.error);
-////////////////
     async function createUser(client,newUser){
       const emailCheck = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_users').findOne({email:req.body.email});
       if(emailCheck){
@@ -75,12 +71,11 @@ router.post('/regUser', (req,res) => {
    var myquery = { "providerId":newUser.providerId};
    var newvalues = { $set: {"password":hash } };
    await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_users").updateOne(myquery,newvalues, function(err) {
-    if (err) throw err; 
-  })  
-  
  
+  })  
+   
    console.log(' :new user\n id: '+result.insertedId);
-   res.redirect('/login')}
+   res.redirect('/')}
    }
  
 })

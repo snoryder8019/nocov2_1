@@ -3,12 +3,12 @@ module.exports = {
         if (req.isAuthenticated()){
             return next()
         }else{
-            res.render('login',{title:"You Must Log In",message:"you have to be logged in for that"})
+            res.redirect('/')
         }
     },
     ensureGuest: function (req,res,next){
         if(req.isAuthenticated()){
-            res.redirect('auth/admin')
+            res.redirect('/')
         }else{
             return next()
         }
