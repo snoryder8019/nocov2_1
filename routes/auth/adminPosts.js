@@ -76,7 +76,7 @@ router.post('/uploadGalleryImages', upload.single('photo'), async function(req, 
         const introId = new ObjectId(introCat);
         const ext = path.extname(imageData.originalname);
         const newName = 'gallery_' + Date.now() + ext;
-        const newDirectory = path.join("../../",config.IMAGE_FP,  "public", "images", "intro", introCat);
+        const newDirectory = path.join(config.IMAGE_FP,  "public", "images", "intro", introCat);
        console.log(newDirectory)
        const newFilepath = path.join(newDirectory, newName);
        console.log(newFilepath)
@@ -141,7 +141,7 @@ console.log(response);
 /*****************************************************************/
 router.post('/updateGalleryImage', async (req, res) => {
     try {
-        await client.connect();
+      
         
         // Retrieve data from the request body
         const introContentId = req.body.introContentId;
@@ -168,7 +168,7 @@ const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBP
         );
 
         // Close the MongoDB connection
-        await client.close();
+     
 
         console.log('Gallery image updated successfully', result);
         res.redirect('admin');
